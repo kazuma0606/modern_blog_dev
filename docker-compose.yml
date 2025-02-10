@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: blog_postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/postgres/init.d:/docker-entrypoint-initdb.d  # 初期SQL実行
+      - ./docker/postgres/pgdata:/var/lib/postgresql/data      # データ永続化
+    environment:
+      POSTGRES_USER: blog_user
+      POSTGRES_PASSWORD: blog_pass
+      POSTGRES_INITDB_ARGS: '--encoding=UTF-8'
+      POSTGRES_DB: blog_db
+    hostname: blog_postgres
+    restart: always
+    user: root
